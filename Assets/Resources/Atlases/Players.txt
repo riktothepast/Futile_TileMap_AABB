@@ -1,0 +1,172 @@
+{"frames": {
+
+"alien_0.png":
+{
+	"frame": {"x":36,"y":2,"w":32,"h":42},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":32,"h":42},
+	"sourceSize": {"w":32,"h":44}
+},
+"alien_1.png":
+{
+	"frame": {"x":2,"y":94,"w":32,"h":44},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":44},
+	"sourceSize": {"w":32,"h":44}
+},
+"alien_2.png":
+{
+	"frame": {"x":34,"y":186,"w":32,"h":42},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":42},
+	"sourceSize": {"w":32,"h":44}
+},
+"alien_3.png":
+{
+	"frame": {"x":2,"y":48,"w":32,"h":44},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":44},
+	"sourceSize": {"w":32,"h":44}
+},
+"alien_4.png":
+{
+	"frame": {"x":2,"y":2,"w":32,"h":44},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":44},
+	"sourceSize": {"w":32,"h":44}
+},
+"droid_0.png":
+{
+	"frame": {"x":98,"y":128,"w":26,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":2,"w":26,"h":38},
+	"sourceSize": {"w":30,"h":40}
+},
+"droid_1.png":
+{
+	"frame": {"x":68,"y":88,"w":26,"h":40},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":26,"h":40},
+	"sourceSize": {"w":30,"h":40}
+},
+"droid_2.png":
+{
+	"frame": {"x":126,"y":2,"w":26,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":26,"h":38},
+	"sourceSize": {"w":30,"h":40}
+},
+"droid_3.png":
+{
+	"frame": {"x":98,"y":2,"w":26,"h":40},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":26,"h":40},
+	"sourceSize": {"w":30,"h":40}
+},
+"droid_4.png":
+{
+	"frame": {"x":70,"y":2,"w":26,"h":40},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":26,"h":40},
+	"sourceSize": {"w":30,"h":40}
+},
+"girl_0.png":
+{
+	"frame": {"x":36,"y":90,"w":30,"h":42},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":30,"h":42},
+	"sourceSize": {"w":30,"h":44}
+},
+"girl_1.png":
+{
+	"frame": {"x":34,"y":140,"w":30,"h":44},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":44},
+	"sourceSize": {"w":30,"h":44}
+},
+"girl_2.png":
+{
+	"frame": {"x":36,"y":46,"w":30,"h":42},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":42},
+	"sourceSize": {"w":30,"h":44}
+},
+"girl_3.png":
+{
+	"frame": {"x":2,"y":186,"w":30,"h":44},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":44},
+	"sourceSize": {"w":30,"h":44}
+},
+"girl_4.png":
+{
+	"frame": {"x":2,"y":140,"w":30,"h":44},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":44},
+	"sourceSize": {"w":30,"h":44}
+},
+"human_0.png":
+{
+	"frame": {"x":68,"y":46,"w":30,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":40},
+	"sourceSize": {"w":30,"h":40}
+},
+"human_1.png":
+{
+	"frame": {"x":100,"y":44,"w":30,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":30,"h":38},
+	"sourceSize": {"w":30,"h":40}
+},
+"human_2.png":
+{
+	"frame": {"x":96,"y":88,"w":30,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":38},
+	"sourceSize": {"w":30,"h":40}
+},
+"human_3.png":
+{
+	"frame": {"x":68,"y":176,"w":30,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":40},
+	"sourceSize": {"w":30,"h":40}
+},
+"human_4.png":
+{
+	"frame": {"x":66,"y":134,"w":30,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":40},
+	"sourceSize": {"w":30,"h":40}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "Players.png",
+	"format": "RGBA8888",
+	"size": {"w":256,"h":256},
+	"scale": "2",
+	"smartupdate": "$TexturePacker:SmartUpdate:5e279bb570bb01fc8d5d7f7ee00c9b1c:bd66a63e87850a8558d040b0141d0894:b07645e793d5fd3fab405f3eead713b6$"
+}
+}

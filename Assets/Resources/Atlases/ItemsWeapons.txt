@@ -1,0 +1,140 @@
+{"frames": {
+
+"Bullet.png":
+{
+	"frame": {"x":101,"y":56,"w":16,"h":10},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":10},
+	"sourceSize": {"w":16,"h":10}
+},
+"Damage.png":
+{
+	"frame": {"x":63,"y":67,"w":30,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":30},
+	"sourceSize": {"w":30,"h":30}
+},
+"Grenade.png":
+{
+	"frame": {"x":109,"y":1,"w":18,"h":18},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":18},
+	"sourceSize": {"w":18,"h":18}
+},
+"GrenadeLauncher.png":
+{
+	"frame": {"x":38,"y":108,"w":36,"h":14},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":36,"h":14},
+	"sourceSize": {"w":36,"h":14}
+},
+"Health.png":
+{
+	"frame": {"x":32,"y":77,"w":30,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":30},
+	"sourceSize": {"w":30,"h":30}
+},
+"MachineGun.png":
+{
+	"frame": {"x":1,"y":60,"w":40,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":16},
+	"sourceSize": {"w":40,"h":16}
+},
+"Plasma.png":
+{
+	"frame": {"x":105,"y":39,"w":22,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":16},
+	"sourceSize": {"w":22,"h":16}
+},
+"PlasmaRifle.png":
+{
+	"frame": {"x":60,"y":48,"w":40,"h":18},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":18},
+	"sourceSize": {"w":40,"h":18}
+},
+"RailGun.png":
+{
+	"frame": {"x":60,"y":27,"w":44,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":44,"h":20},
+	"sourceSize": {"w":44,"h":20}
+},
+"Rocket.png":
+{
+	"frame": {"x":107,"y":20,"w":20,"h":18},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":20,"h":18},
+	"sourceSize": {"w":20,"h":18}
+},
+"RocketLauncher.png":
+{
+	"frame": {"x":60,"y":10,"w":46,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":16},
+	"sourceSize": {"w":46,"h":16}
+},
+"Shell.png":
+{
+	"frame": {"x":42,"y":60,"w":10,"h":10},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":10},
+	"sourceSize": {"w":10,"h":10}
+},
+"ShotGun.png":
+{
+	"frame": {"x":1,"y":108,"w":36,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":36,"h":16},
+	"sourceSize": {"w":36,"h":16}
+},
+"Speed.png":
+{
+	"frame": {"x":1,"y":77,"w":30,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":30},
+	"sourceSize": {"w":30,"h":30}
+},
+"blast.png":
+{
+	"frame": {"x":1,"y":1,"w":58,"h":58},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":58,"h":58},
+	"sourceSize": {"w":58,"h":58}
+},
+"gauge.png":
+{
+	"frame": {"x":60,"y":1,"w":48,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":8},
+	"sourceSize": {"w":48,"h":8}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "ItemsWeapons.png",
+	"format": "RGBA8888",
+	"size": {"w":128,"h":128},
+	"scale": "2",
+	"smartupdate": "$TexturePacker:SmartUpdate:8a50c38fa55e71b0117fa954d3af3139:1/1$"
+}
+}
