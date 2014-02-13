@@ -14,7 +14,7 @@ public class GamePage : Page {
 	override public void Start () 
 	{
 		tileMap = new TileMap();
-		tileMap.LoadTileMap("Texts/StrangeMap");
+		tileMap.LoadTileMap("Texts/MapBig");
 		AddChild(tileMap);
 		cameraPosition = new Vector2(Futile.screen.halfWidth,Futile.screen.halfHeight);
 		ListenForUpdate(Update);
@@ -31,8 +31,13 @@ public class GamePage : Page {
 		if(Input.GetKey("right")){
 			cameraPosition.x+=5f;
 		}
+		if(Input.GetKey("up")){
+			cameraPosition.y+=5f;
+		}
+		if(Input.GetKey("down")){
+			cameraPosition.y-=5f;
+		}
 
-		Debug.Log(cameraPosition);
 	}
 		// move the map based on a player or a centric point around various players
 	public void FollowVector(Vector2 position)

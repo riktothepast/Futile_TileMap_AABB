@@ -29,7 +29,7 @@ public class Game : MonoBehaviour {
 		
 		fparams.AddResolutionLevel(480.0f,	1.0f,	1.0f,""); //iPhone
 
-		fparams.origin = new Vector2(0.5f,0.5f);
+		fparams.origin = new Vector2(0.0f,0.0f);
 		
 		Futile.instance.Init (fparams);
 		
