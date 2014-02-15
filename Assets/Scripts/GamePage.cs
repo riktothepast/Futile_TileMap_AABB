@@ -71,7 +71,7 @@ public class GamePage : Page {
 			newYPosition = screenHalfY*2.0f - ((screenHalfY*2.0f - levelSize.y) / 2.0f);
 		
 		// move the map
-		tileMap.SetPosition(new Vector2((int)newXPosition, (int)newYPosition));
+		tileMap.SetPosition(new Vector2(newXPosition, newYPosition));
 	}
 
 }
