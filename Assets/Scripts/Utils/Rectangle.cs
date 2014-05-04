@@ -4,16 +4,7 @@ using System.Collections;
 // Axis Aligned rectangle, with velocity for swept.
 public class Rectangle
 {
-		public Rectangle (float center_x, float center_y, float width, float height, float velocity_x, float velocity_y)
-		{
-				// set x and y at top-left corner.
-				x = center_x - width/2;
-				y = center_y - height/2;
-				w = width;
-				h = height;
-				vx = velocity_x;
-				vy = velocity_y;
-		}
+
 	
 		public Rectangle (float center_x, float center_y, float width, float height)
 		{
@@ -22,8 +13,6 @@ public class Rectangle
 				y = center_y - height/2;
 				w = width;
 				h = height;
-				vx = 0.0f;
-				vy = 0.0f;
 		}
 	
 		// position of top-left corner
@@ -31,7 +20,9 @@ public class Rectangle
 	
 		// dimensions
 		public float w, h;
-	
-		// velocity
-		public float vx, vy;
+
+        public static bool AABBCheck(Rectangle rect1, Rectangle rect2)
+        {
+            return !(rect1.x + rect1.w < rect2.x || rect1.x > rect2.x + rect2.w || rect1.y + rect1.h < rect2.y || rect1.y > rect2.y + rect2.h);
+        }
 }

@@ -157,7 +157,7 @@ public class TileMap : FContainer
                 if (Tiles[i, j] == 1)
                     drawHitBox(tileBounds, Color.white);
 
-                if (Tiles[i, j] == 1 && MovementWrapper.AABBCheck(tileBounds,rectangleToCheck))
+                if (Tiles[i, j] == 1 && Rectangle.AABBCheck(tileBounds,rectangleToCheck))
                 {
                     return false;
                 }

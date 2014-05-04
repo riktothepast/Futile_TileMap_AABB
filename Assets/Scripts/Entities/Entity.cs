@@ -37,11 +37,13 @@ public abstract class Entity :FContainer
 	    Vector2 size;
 		float gravity;
 		float jumpImpulse;
+        float jumpTime;
         bool isJumping, wasJumping;
-        
+        float movementSpeed = 25f;
+        float MaxJumpTime = 0.50f;
+        float JumpControlPower = 0.14f;
         //how many pixels we are using to check boundaries
-        public int detectionAccuracy = 2;
-		public CollisionDetection collisionDetection;
+        public int detectionAccuracy = 1;
 		public Rectangle BoundingBox;
 
         public Vector2 Velocity { get { return velocity; } set { velocity = value; } }
@@ -50,8 +52,8 @@ public abstract class Entity :FContainer
         public Vector2 Size { get { return size; } set { size = value; } }
         public float Gravity { get { return gravity; } set { gravity = value; } }
         public float JumpImpulse { get { return jumpImpulse; } set { jumpImpulse = value; } }
-
-        public Vector2 Movement { get; set; }
+        public float MovementSpeed { get { return movementSpeed; } set { movementSpeed = value; } }
+        public int DetectionAccuracy { get { return detectionAccuracy; } set { detectionAccuracy = value; } }
 
 		public bool onGround 		{ get; set; }
 
@@ -84,7 +86,7 @@ public abstract class Entity :FContainer
             float hInput = Input.GetAxis("Horizontal");
             float vInput = Input.GetAxis("Vertical");
 
-            float forwardStep = 25f * Time.deltaTime;
+            float forwardStep = movementSpeed * Time.deltaTime;
 
             if (hInput > 0){
                 velocity += Vector2.right * forwardStep;
@@ -92,14 +94,13 @@ public abstract class Entity :FContainer
                 velocity -= Vector2.right * forwardStep;
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                doJump();
+            if (Input.GetKeyDown(KeyCode.Space)){
+                    setJump();
             }
 
-            if (Input.GetKeyDown(KeyCode.Space)){
-                if(Ground())
-                    doJump();
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                velocity += Vector2.up * forwardStep;
             }
 
             if (velocity.x > maxSpeed.x)
@@ -150,11 +151,46 @@ public abstract class Entity :FContainer
             }
         }
 
-		public virtual void doJump ()
+		public virtual void setJump ()
 		{
+            isJumping = true;
+        }
 
-            velocity.y += jumpImpulse;
+        public virtual void DoJump()
+        {
+            // If the player wants to jump
+            if (isJumping)
+            {
+                // Begin or continue a jump
+                if ((!wasJumping && Ground()) || jumpTime > 0.0f)
+                {
+                    if (jumpTime == 0.0f) { }
+                        // play sound effect here
 
+                    jumpTime += Time.deltaTime;
+                    // do animation switch here
+
+                }
+
+                // If we are in the ascent of the jump
+                if (0.0f < jumpTime && jumpTime <= MaxJumpTime)
+                {
+                    // Fully override the vertical velocity with a power curve that gives
+                    // players more control over the top of the jump
+                    velocity.y = JumpImpulse * (1.0f - Mathf.Pow(jumpTime / MaxJumpTime, JumpControlPower));
+                }
+                else
+                {
+                    // Reached the apex of the jump
+                    jumpTime = 0.0f;
+                }
+            }
+            else
+            {
+                // Continues not jumping or cancels a jump in progress
+                jumpTime = 0.0f;
+            }
+            wasJumping = isJumping;
         }
 
 		public virtual void Update ()
@@ -162,9 +198,11 @@ public abstract class Entity :FContainer
             CheckAndUpdateMovement();
             applyGravity();
             applyFriction();
+            DoJump();
             MoveAsFarAsPossible();
             StopMovingIfBlocked();
             SetPosition(position);
+            isJumping = false;
 		}
 
         void StopMovingIfBlocked()

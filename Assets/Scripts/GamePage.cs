@@ -29,6 +29,7 @@ public class GamePage : Page
         tileMap.LoadTileMap("Texts/MapBig");
         AddChild(tileMap);
         player = new Player();
+        player.Size = new Vector2(20,20);
         cameraPosition = player.GetPosition();
         tileMap.AddChild(player);
         ListenForUpdate(Update);
@@ -59,15 +60,15 @@ public class GamePage : Page
         newYPosition = (halfOfTheScreenY - position.y);
 
         // limit screen movement
-        if (newXPosition > -TileMap.tileSize)
-            newXPosition = -TileMap.tileSize;
-        if (newXPosition < -levelSize.x + halfOfTheScreenX * 2 + TileMap.tileSize)
-            newXPosition = -levelSize.x + halfOfTheScreenX * 2 + TileMap.tileSize;
+        if (newXPosition > TileMap.tileSize/2)
+            newXPosition = TileMap.tileSize/2;
+        if (newXPosition < -levelSize.x + halfOfTheScreenX * 2 + TileMap.tileSize / 2)
+            newXPosition = -levelSize.x + halfOfTheScreenX * 2 + TileMap.tileSize / 2;
 
-        if (newYPosition < halfOfTheScreenY * 2.0f)
-            newYPosition = halfOfTheScreenY * 2.0f;
-        if (newYPosition > levelSize.y)
-            newYPosition = levelSize.y;
+        if (newYPosition < halfOfTheScreenY * 2.0f - TileMap.tileSize / 2)
+            newYPosition = halfOfTheScreenY * 2.0f - TileMap.tileSize / 2;
+        if (newYPosition > levelSize.y - TileMap.tileSize / 2)
+            newYPosition = levelSize.y - TileMap.tileSize / 2;
 
         // center on screen for small maps
         if (halfOfTheScreenX * 2.0f >= levelSize.x)

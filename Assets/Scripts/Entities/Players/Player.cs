@@ -13,11 +13,10 @@ public class Player : Entity
 				Size = new Vector2 (24, 24);
 				ListenForUpdate (Update);
 				Gravity = 9.8f;
-                JumpImpulse = 6f;
+                JumpImpulse = 20f;
                 MaxSpeed = new Vector2(100f, Gravity);
 				useGravity = true;
 				AddChild (sprite);
                 Position = new Vector2(TileMap.tileSize*3,-TileMap.tileSize*3);
 		}
-		
 }
