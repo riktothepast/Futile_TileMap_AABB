@@ -30,15 +30,28 @@ using System.Collections.Generic;
 
 public abstract class Entity :FContainer
 {
-	public Vector2 position;
+        Vector2 oldPosition; 
+        Vector2 velocity;
+		Vector2 position;
+        Vector2 maxSpeed;
+	    Vector2 size;
+		float gravity;
+		float jumpImpulse;
+        bool isJumping, wasJumping;
+        
+        //how many pixels we are using to check boundaries
+        public int detectionAccuracy = 2;
+		public CollisionDetection collisionDetection;
+		public Rectangle BoundingBox;
 
-	public Vector2 velocity;
+        public Vector2 Velocity { get { return velocity; } set { velocity = value; } }
+        public Vector2 Position { get { return position; } set { position = value; } }
+        public Vector2 MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
+        public Vector2 Size { get { return size; } set { size = value; } }
+        public float Gravity { get { return gravity; } set { gravity = value; } }
+        public float JumpImpulse { get { return jumpImpulse; } set { jumpImpulse = value; } }
 
-	public float gravity;
-
-	public float jumpImpulse;
-
-	public CollisionDetection collisionDetection;
+        public Vector2 Movement { get; set; }
 
 		public bool onGround 		{ get; set; }
 
@@ -52,58 +65,191 @@ public abstract class Entity :FContainer
 		
 		public Entity ()
 		{
-					
-		}
-
-		public virtual void doCollisionCheck ()
-		{
-				if (noClip)
-						return;
-			
 				
 		}
+
+		public virtual void doCollisionCheck (out Vector2 normalOut, out Vector2 collisionResolution, out int collisionType)
+		{
+				normalOut.x = 0;
+				normalOut.y = 0;
+				collisionResolution.x = 0;
+				collisionResolution.y = 0;
+				collisionType = 0;
+				onGround = false;
+
+		}
+
+        public virtual void CheckAndUpdateMovement()
+        {
+            float hInput = Input.GetAxis("Horizontal");
+            float vInput = Input.GetAxis("Vertical");
+
+            float forwardStep = 25f * Time.deltaTime;
+
+            if (hInput > 0){
+                velocity += Vector2.right * forwardStep;
+            } else if (hInput < 0){
+                velocity -= Vector2.right * forwardStep;
+            }
+
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                doJump();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space)){
+                if(Ground())
+                    doJump();
+            }
+
+            if (velocity.x > maxSpeed.x)
+            {
+                velocity.x = maxSpeed.x;
+            }
+            else if (velocity.x < -maxSpeed.x)
+            {
+                velocity.x = -maxSpeed.x;
+            }
+
+            if (velocity.y < -maxSpeed.y)
+            {
+                velocity.y = -maxSpeed.y;
+            }
+
+        }
+
+         void MoveAsFarAsPossible()
+        {
+            oldPosition = position;
+            UpdatePosition();
+            position = TileMap.CurrentMap.WhereCanIGetTo(oldPosition, position, getAABBBoundingBox());
+        }
+
+         void UpdatePosition()
+        {
+            position += velocity;
+        }
 				
 		public virtual void applyGravity ()
 		{
 				if (!useGravity)
 						return;
 
-				velocity.y -= gravity * Time.deltaTime;
+                velocity -= Vector2.up * gravity * Time.deltaTime;
 		}
+
+        public virtual void applyFriction()
+        {
+            // applies friction based on the last type of tile detected?. Of if the entity is not grounded.
+            if (Ground())
+            {
+                velocity.x *= 0.8f;
+            }
+            else {
+                velocity.x *= 0.85f;
+            }
+        }
 
 		public virtual void doJump ()
 		{
-				velocity.y += jumpImpulse * Time.deltaTime;
+
+            velocity.y += jumpImpulse;
+
+        }
+
+		public virtual void Update ()
+		{
+            CheckAndUpdateMovement();
+            applyGravity();
+            applyFriction();
+            MoveAsFarAsPossible();
+            StopMovingIfBlocked();
+            SetPosition(position);
 		}
 
+        void StopMovingIfBlocked()
+        {
+            Vector2 lastMovement = position - oldPosition;
+            if (lastMovement.x == 0) { velocity.x *= 0; }
+            if (lastMovement.y == 0) { velocity.y *= 0; }
+        }
 
-
-		// this code is by mylesmar10
-		public void drawHitBox (FSprite sprite, Color color)
+		public void Destroy ()
 		{
-				if (sprite.GetTextureRectRelativeToContainer () != null) {
 			
-						Vector3 tL = new Vector3 (0f, 0f, 0f);
-						Vector3 tR = new Vector3 (0f, 0f, 0f);
-						Vector3 bL = new Vector3 (0f, 0f, 0f);
-						Vector3 bR = new Vector3 (0f, 0f, 0f);
-			
-						tL.x = sprite.GetTextureRectRelativeToContainer ().xMin;
-						tL.y = sprite.GetTextureRectRelativeToContainer ().yMin;
-			
-						tR.x = sprite.GetTextureRectRelativeToContainer ().xMax;
-						tR.y = sprite.GetTextureRectRelativeToContainer ().yMin;
-			
-						bL.x = sprite.GetTextureRectRelativeToContainer ().xMin;
-						bL.y = sprite.GetTextureRectRelativeToContainer ().yMax;
-			
-						bR.x = sprite.GetTextureRectRelativeToContainer ().xMax;
-						bR.y = sprite.GetTextureRectRelativeToContainer ().yMax;
-			
-						Debug.DrawLine (tL, tR, color);
-						Debug.DrawLine (tR, bR, color);
-						Debug.DrawLine (bR, bL, color);
-						Debug.DrawLine (bL, tL, color);
-				}
+		}
+
+		public Rectangle getAABBBoundingBox ()
+		{
+            return new Rectangle(position.x, position.y, size.x, size.y);
+		}
+
+		public Vector2 positionOnTileMap (Vector2 position)
+		{
+				return new Vector2 ((int)(position.x / TileMap.tileSize), (int)(position.y * -1 / TileMap.tileSize));
+		}
+
+        //https://docs.unity3d.com/Documentation/ScriptReference/Rectangle.html
+        public bool Ground()
+        {
+            Rectangle offsetOnePixel = getAABBBoundingBox();
+            offsetOnePixel.y -= detectionAccuracy;
+            drawHitBox(offsetOnePixel, Color.cyan);
+            return !TileMap.CurrentMap.HasRoomForRectangle(offsetOnePixel);
+        }
+        public bool Ceiling()
+        {
+            Rectangle offsetOnePixel = getAABBBoundingBox();
+            offsetOnePixel.y += detectionAccuracy*2;
+            drawHitBox(offsetOnePixel, Color.magenta);
+            return !TileMap.CurrentMap.HasRoomForRectangle(offsetOnePixel);
+        }
+
+        public bool LeftWall()
+        {
+            Rectangle offsetOnePixel = getAABBBoundingBox();
+            offsetOnePixel.x -= detectionAccuracy*2;
+            drawHitBox(offsetOnePixel, Color.blue);
+            return !TileMap.CurrentMap.HasRoomForRectangle(offsetOnePixel);
+        }
+
+        public bool RightWall()
+        {
+            Rectangle offsetOnePixel = getAABBBoundingBox();
+            offsetOnePixel.x += detectionAccuracy;
+            drawHitBox(offsetOnePixel, Color.yellow);
+            return !TileMap.CurrentMap.HasRoomForRectangle(offsetOnePixel);
+        }
+	
+		// this code is by mylesmar10
+		public void drawHitBox (Rectangle rect, Color color)
+		{
+            Vector3 tL = new Vector3(0f, 0f, 0f);
+            Vector3 tR = new Vector3(0f, 0f, 0f);
+            Vector3 bL = new Vector3(0f, 0f, 0f);
+            Vector3 bR = new Vector3(0f, 0f, 0f);
+            tL.x = rect.x;
+            tL.y = rect.y;
+            tR.x = rect.x + rect.w;
+            tR.y = rect.y;
+            bL.x = rect.x;
+            bL.y = rect.y + rect.h;
+            bR.x = rect.x + rect.w;
+            bR.y = rect.y + rect.h;
+
+            Debug.DrawLine(tL, tR, color);
+            Debug.DrawLine(tR, bR, color);
+            Debug.DrawLine(bR, bL, color);
+            Debug.DrawLine(bL, tL, color);
+		}
+
+		public Vector2 RectIntersection (Rectangle rectA, Rectangle rectB)
+		{
+				float leftX = Math.Max (rectA.x, rectB.x);
+				float rightX = Math.Min (rectA.x + rectA.w, rectB.x + rectB.w);
+				float topY = Math.Max (Math.Abs (rectA.y), Math.Abs (rectB.y));
+				float bottomY = Math.Min (Math.Abs (rectA.y) + rectA.h, Math.Abs (rectB.y) + rectB.h);
+		
+				return new Vector2 (rightX - leftX, bottomY - topY);
 		}
 }
