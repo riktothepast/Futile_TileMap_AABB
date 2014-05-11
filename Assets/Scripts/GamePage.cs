@@ -29,7 +29,6 @@ public class GamePage : Page
         tileMap.LoadTileMap("Texts/MapBig");
         AddChild(tileMap);
         player = new Player();
-        player.Size = new Vector2(20,20);
         cameraPosition = player.GetPosition();
         tileMap.AddChild(player);
         ListenForUpdate(Update);
@@ -42,7 +41,7 @@ public class GamePage : Page
     {
         player.Update();
         FollowVector(player.GetPosition());
-        hudStuff.text = "Game Stats:  FPS : " + 1 / Time.deltaTime+ "\n Ground :  " + player.Ground() + " \n Ceiling : " + player.Ceiling() + "\n Left : " + player.LeftWall() + " \n Right : " + player.RightWall() + " \n Velocity : " + player.Velocity ;
+        hudStuff.text = "Game Stats:  FPS : " + 1 / Time.deltaTime + "\n Ground :  " + player.Ground() + " \n Ceiling : " + player.Ceiling() + "\n Left : " + player.LeftWall() + " \n Right : " + player.RightWall() + " \n Velocity : " + player.Velocity + " \n Position : " + player.Position;
         hudShadow.text = hudStuff.text;    
     }
     // move the map based on a player or a centric point around various players

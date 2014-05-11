@@ -38,7 +38,7 @@ public abstract class Entity :FContainer
 		float gravity;
 		float jumpImpulse;
         float jumpTime;
-        bool isJumping, wasJumping;
+        bool isJumping, wasJumping, doubleJump;
         float movementSpeed = 25f;
         float MaxJumpTime = 0.50f;
         float JumpControlPower = 0.14f;
@@ -68,17 +68,6 @@ public abstract class Entity :FContainer
 		public Entity ()
 		{
 				
-		}
-
-		public virtual void doCollisionCheck (out Vector2 normalOut, out Vector2 collisionResolution, out int collisionType)
-		{
-				normalOut.x = 0;
-				normalOut.y = 0;
-				collisionResolution.x = 0;
-				collisionResolution.y = 0;
-				collisionType = 0;
-				onGround = false;
-
 		}
 
         public virtual void CheckAndUpdateMovement()
@@ -154,6 +143,9 @@ public abstract class Entity :FContainer
 		public virtual void setJump ()
 		{
             isJumping = true;
+            if (jumpTime>0.0f) {
+                doubleJump = true ;
+            }
         }
 
         public virtual void DoJump()
@@ -196,10 +188,15 @@ public abstract class Entity :FContainer
 		public virtual void Update ()
 		{
             CheckAndUpdateMovement();
+            DoJump();
             applyGravity();
             applyFriction();
-            DoJump();
             MoveAsFarAsPossible();
+            Vector2 newPos = TileMap.CurrentMap.WorldWrap(getAABBBoundingBox());
+            if (newPos != Vector2.zero)
+            {
+                position = newPos;
+            }
             StopMovingIfBlocked();
             SetPosition(position);
             isJumping = false;
@@ -222,9 +219,10 @@ public abstract class Entity :FContainer
             return new Rectangle(position.x, position.y, size.x, size.y);
 		}
 
+
 		public Vector2 positionOnTileMap (Vector2 position)
 		{
-				return new Vector2 ((int)(position.x / TileMap.tileSize), (int)(position.y * -1 / TileMap.tileSize));
+				return new Vector2 ((int)(position.x / TileMap.tileSize), (int)(position.y / TileMap.tileSize));
 		}
 
         //https://docs.unity3d.com/Documentation/ScriptReference/Rectangle.html
@@ -232,14 +230,14 @@ public abstract class Entity :FContainer
         {
             Rectangle offsetOnePixel = getAABBBoundingBox();
             offsetOnePixel.y -= detectionAccuracy;
-            drawHitBox(offsetOnePixel, Color.cyan);
+        //    drawHitBox(offsetOnePixel, Color.cyan);
             return !TileMap.CurrentMap.HasRoomForRectangle(offsetOnePixel);
         }
         public bool Ceiling()
         {
             Rectangle offsetOnePixel = getAABBBoundingBox();
             offsetOnePixel.y += detectionAccuracy*2;
-            drawHitBox(offsetOnePixel, Color.magenta);
+        //    drawHitBox(offsetOnePixel, Color.magenta);
             return !TileMap.CurrentMap.HasRoomForRectangle(offsetOnePixel);
         }
 
@@ -247,7 +245,7 @@ public abstract class Entity :FContainer
         {
             Rectangle offsetOnePixel = getAABBBoundingBox();
             offsetOnePixel.x -= detectionAccuracy*2;
-            drawHitBox(offsetOnePixel, Color.blue);
+         //   drawHitBox(offsetOnePixel, Color.blue);
             return !TileMap.CurrentMap.HasRoomForRectangle(offsetOnePixel);
         }
 
@@ -255,7 +253,7 @@ public abstract class Entity :FContainer
         {
             Rectangle offsetOnePixel = getAABBBoundingBox();
             offsetOnePixel.x += detectionAccuracy;
-            drawHitBox(offsetOnePixel, Color.yellow);
+       //     drawHitBox(offsetOnePixel, Color.yellow);
             return !TileMap.CurrentMap.HasRoomForRectangle(offsetOnePixel);
         }
 	
