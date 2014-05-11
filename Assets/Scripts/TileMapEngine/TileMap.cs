@@ -74,8 +74,8 @@ public class TileMap : FContainer
     // update the tilemap based on whats visible ?. 
     public void Update()
     {
-        int lengthI = Tiles.GetLength(0); // Y
-        int lengthJ = Tiles.GetLength(1); // X
+        int lengthI = Tiles.GetLength(1); // Y
+        int lengthJ = Tiles.GetLength(0); // X
 
         int drawMin_X = Math.Abs((int)(this.x / tileSize)) - 1;
         int drawMax_X = drawMin_X + (int)(Futile.screen.width / tileSize) + 2;
@@ -206,6 +206,143 @@ public class TileMap : FContainer
 
         return wrapper.FurthestAvailableLocationSoFar;
     }
+    /// <summary>World wrapping aka "Pacman" effect 
+    /// <para>If the entity is out of bounds, re-set it's position to the first available space in the opposite side of the map.</para>
+    /// </summary> 
+    public Vector2 WorldWrap(Rectangle boundingRectangle) {
+        int lengthI = Tiles.GetLength(1); 
+        int lengthJ = Tiles.GetLength(0);
+
+        if (lengthJ < 0) lengthJ = 0;
+        if (lengthJ > 24) lengthJ = 23;
+        if (lengthI < 0) lengthI = 0;
+        if (lengthI > 15) lengthI = 14;
+
+            // let's world wrap!
+            if (pixelsToTiles(boundingRectangle.x) < 0)
+            {
+                Debug.Log(boundingRectangle.x+ " Out of Map left");
+                return GetFreePositionHorizontal(new Vector2(getSizeIntiles().x - 1, 0), new Vector2(getSizeIntiles().x / 2, getSizeIntiles().y), boundingRectangle);
+            }
+            if (pixelsToTiles(boundingRectangle.x) > (lengthJ))
+            {
+                Debug.Log(boundingRectangle.x + " Out of Map right");
+                return GetFreePositionHorizontal(new Vector2(0, 0), new Vector2(getSizeIntiles().x / 2, getSizeIntiles().y), boundingRectangle);
+            }
+            if (pixelsToTiles(boundingRectangle.y) > 0)
+            {
+                Debug.Log(boundingRectangle.y + " Out of Map top");
+                return GetFreePositionVertical(new Vector2(0, getSizeIntiles().y), new Vector2(getSizeIntiles().x, getSizeIntiles().y/2), boundingRectangle);
+            }
+            Debug.Log(pixelsToTiles(boundingRectangle.y) + "  " + lengthI);
+            if (pixelsToTiles(boundingRectangle.y) < -lengthI)
+            {
+                Debug.Log(boundingRectangle.y + " Out of Map bottom");
+                return GetFreePositionVertical(new Vector2(0, 0), new Vector2(getSizeIntiles().x, getSizeIntiles().y / 2), boundingRectangle);
+            }
+        
+        return Vector2.zero;
+    }
+
+    Vector2 GetFreePositionHorizontal(Vector2 initial, Vector2 final, Rectangle boundingRectangle)
+    {
+        if (initial.x < final.x) //first to last
+        {
+
+                for (int x = (int)initial.x; x < (int)final.x; x++)
+                {
+                    for (int y = (int)initial.y; y < (int)final.y; y++)
+                    {
+                        boundingRectangle.x = tilesToPixels(x);
+                        boundingRectangle.y = tilesToPixels(-y);
+                        if (HasRoomForRectangle(boundingRectangle))
+                        {
+                            return new Vector2(boundingRectangle.x, boundingRectangle.y);
+                        }
+                    }
+                }
+           
+        }
+        else {
+            // last to first
+           
+                for (int x = (int)initial.x; x > (int)final.x; x--)
+                {
+                    for (int y = (int)initial.y; y < (int)final.y; y++)
+                    {
+                        boundingRectangle.x = tilesToPixels(x);
+                        boundingRectangle.y = tilesToPixels(-y);
+                        if (HasRoomForRectangle(boundingRectangle))
+                        {
+                            return new Vector2(boundingRectangle.x, boundingRectangle.y);
+                        }
+                    }
+                }
+                  
+        
+        
+        }
+        
+        return Vector2.zero;
+    }
+
+    Vector2 GetFreePositionVertical(Vector2 initial, Vector2 final, Rectangle boundingRectangle)
+    {
+        if (initial.y < final.y) //first to last
+        {
+
+            for (int x = (int)initial.x; x < (int)final.x; x++)
+            {
+                for (int y = (int)initial.y; y < (int)final.y; y++)
+                {
+                    boundingRectangle.x = tilesToPixels(x);
+                    boundingRectangle.y = tilesToPixels(-y);
+                    if (HasRoomForRectangle(boundingRectangle))
+                    {
+                        return new Vector2(boundingRectangle.x, boundingRectangle.y);
+                    }
+                }
+            }
+
+        }
+        else
+        {
+            // last to first
+
+            for (int x = (int)initial.x; x < (int)final.x; x++)
+            {
+                for (int y = (int)initial.y; y > (int)final.y; y--)
+                {
+                    boundingRectangle.x = tilesToPixels(x);
+                    boundingRectangle.y = tilesToPixels(-y);
+                    if (HasRoomForRectangle(boundingRectangle))
+                    {
+                        return new Vector2(boundingRectangle.x, boundingRectangle.y);
+                    }
+                }
+            }
+
+
+
+        }
+
+        return Vector2.zero;
+    }
+
+    /// <summary> Returns the value in tile size.
+    /// <para>given a value in pixel metrics, return its tilemap (logic) position..</para>
+    /// </summary> 
+    public float pixelsToTiles(float value){
+        return (int)(value / tileSize);
+    }
+        /// <summary> Returns the value in pixel size.
+    /// <para>given a value in tile metrics, return its screen (graphic) position..</para>
+    /// </summary> 
+    public float tilesToPixels(float value){
+        return (int)(value * tileSize);
+
+    }
+
     public void drawHitBox(Rectangle rect, Color color)
     {
         Vector3 tL = new Vector3(0f, 0f, 0f);
