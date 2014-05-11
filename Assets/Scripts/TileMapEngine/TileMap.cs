@@ -287,11 +287,10 @@ public class TileMap : FContainer
     {
         if (initial.y < final.y) //first to last
         {
-
+            for (int y = (int)initial.y; y < (int)final.y; y++)
+            {
             for (int x = (int)initial.x; x < (int)final.x; x++)
             {
-                for (int y = (int)initial.y; y < (int)final.y; y++)
-                {
                     boundingRectangle.x = tilesToPixels(x);
                     boundingRectangle.y = tilesToPixels(-y);
                     if (HasRoomForRectangle(boundingRectangle))
@@ -305,10 +304,9 @@ public class TileMap : FContainer
         else
         {
             // last to first
-
-            for (int x = (int)initial.x; x < (int)final.x; x++)
+            for (int y = (int)initial.y; y > (int)final.y; y--)
             {
-                for (int y = (int)initial.y; y > (int)final.y; y--)
+            for (int x = (int)initial.x; x < (int)final.x; x++)
                 {
                     boundingRectangle.x = tilesToPixels(x);
                     boundingRectangle.y = tilesToPixels(-y);
