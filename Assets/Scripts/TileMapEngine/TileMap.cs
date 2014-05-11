@@ -213,10 +213,7 @@ public class TileMap : FContainer
         int lengthI = Tiles.GetLength(1); 
         int lengthJ = Tiles.GetLength(0);
 
-        if (lengthJ < 0) lengthJ = 0;
-        if (lengthJ > 24) lengthJ = 23;
-        if (lengthI < 0) lengthI = 0;
-        if (lengthI > 15) lengthI = 14;
+
 
             // let's world wrap!
             if (pixelsToTiles(boundingRectangle.x) < 0)
@@ -224,7 +221,7 @@ public class TileMap : FContainer
                 Debug.Log(boundingRectangle.x+ " Out of Map left");
                 return GetFreePositionHorizontal(new Vector2(getSizeIntiles().x - 1, 0), new Vector2(getSizeIntiles().x / 2, getSizeIntiles().y), boundingRectangle);
             }
-            if (pixelsToTiles(boundingRectangle.x) > (lengthJ))
+            if (pixelsToTiles(boundingRectangle.x+boundingRectangle.w) > (lengthJ-1))
             {
                 Debug.Log(boundingRectangle.x + " Out of Map right");
                 return GetFreePositionHorizontal(new Vector2(0, 0), new Vector2(getSizeIntiles().x / 2, getSizeIntiles().y), boundingRectangle);
